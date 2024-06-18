@@ -48,10 +48,10 @@ public class LineItemEntity {
 
     public static LineItemEntity fromDomain(LineItem lineItem) {
         var entity = new LineItemEntity();
-        entity.setDrink(lineItem.drink());
-        entity.setQuantity(lineItem.quantity());
-        entity.setMilk(lineItem.milk());
-        entity.setSize(lineItem.size());
+        entity.setDrink(lineItem.getDrink());
+        entity.setQuantity(lineItem.getQuantity());
+        entity.setMilk(lineItem.getMilk());
+        entity.setSize(lineItem.getSize());
         return entity;
     }
 }

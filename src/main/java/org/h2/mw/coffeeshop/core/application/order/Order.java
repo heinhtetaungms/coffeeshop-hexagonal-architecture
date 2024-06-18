@@ -1,27 +1,36 @@
 package org.h2.mw.coffeeshop.core.application.order;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import org.h2.mw.coffeeshop.core.shared.Location;
 import org.h2.mw.coffeeshop.core.shared.Status;
+import org.h2.mw.coffeeshop.infrastructure.shared.SelfValidating;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-public class Order {
-    @Getter
+@Data
+public class Order extends SelfValidating<Order> {
+
     private UUID id = UUID.randomUUID();
-    @Getter
+
+    @NotNull(message = "Location must be provided")
     private final Location location;
+
+    @NotNull(message = "Items must not be empty")
     private final List<LineItem> items;
-    @Getter
+
     private Status status = Status.PAYMENT_EXPECTED;
 
     public Order(Location location, List<LineItem> items) {
         this.location = location;
         this.items = items;
+        validateSelf();
     }
 
     public Order(UUID id, Location location, List<LineItem> items, Status status) {
@@ -29,6 +38,7 @@ public class Order {
         this.location = location;
         this.items = items;
         this.status = status;
+        validateSelf();
     }
 
     public List<LineItem> getItems() {

@@ -1,7 +1,7 @@
 package org.h2.mw.application.out.stub;
 
 import org.h2.mw.coffeeshop.core.application.order.Order;
-import org.h2.mw.coffeeshop.core.application.out.OrderNotFound;
+import org.h2.mw.coffeeshop.core.exception.OrderNotFoundException;
 import org.h2.mw.coffeeshop.core.application.out.Orders;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class InMemoryOrders implements Orders {
     public Order findOrderById(UUID orderId) {
         var order = entities.get(orderId);
         if (order == null) {
-            throw new OrderNotFound();
+            throw new OrderNotFoundException(orderId);
         }
         return order;
     }

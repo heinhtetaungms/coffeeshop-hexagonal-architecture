@@ -2,7 +2,7 @@ package org.h2.mw.coffeeshop.infrastructure.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.h2.mw.coffeeshop.core.application.order.Order;
-import org.h2.mw.coffeeshop.core.application.out.OrderNotFound;
+import org.h2.mw.coffeeshop.core.exception.OrderNotFoundException;
 import org.h2.mw.coffeeshop.core.application.out.Orders;
 import org.h2.mw.coffeeshop.infrastructure.adapter.out.persistence.entity.OrderEntity;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class OrdersJpaAdapter implements Orders {
     public Order findOrderById(UUID orderId) {
         return orderJpaRepository.findById(orderId)
                 .map(OrderEntity::toDomain)
-                .orElseThrow(OrderNotFound::new);
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
     }
 
     @Override

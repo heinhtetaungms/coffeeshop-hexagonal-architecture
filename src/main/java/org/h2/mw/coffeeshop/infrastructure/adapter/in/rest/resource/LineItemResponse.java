@@ -8,8 +8,10 @@ import org.h2.mw.coffeeshop.core.shared.Size;
 public record LineItemResponse(Drink drink, Milk milk, Size size, Integer quantity) {
     public static LineItemResponse fromDomain(LineItem lineItem) {
         return new LineItemResponse(
-                lineItem.drink(),
-                lineItem.milk(), lineItem.size(), lineItem.quantity()
+                lineItem.getDrink(),
+                lineItem.getMilk(),
+                lineItem.getSize(),
+                lineItem.getQuantity()
         );
     }
 }

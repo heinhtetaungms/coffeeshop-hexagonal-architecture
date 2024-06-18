@@ -5,6 +5,7 @@ import org.h2.mw.application.out.stub.InMemoryPayments;
 import org.h2.mw.coffeeshop.core.application.in.*;
 import org.h2.mw.coffeeshop.core.application.order.*;
 import org.h2.mw.coffeeshop.core.application.out.*;
+import org.h2.mw.coffeeshop.core.exception.OrderNotFoundException;
 import org.h2.mw.coffeeshop.core.shared.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,8 @@ class AcceptanceTests {
         var order = customer.placeOrder(orderToMake);
 
         assertThat(order.getLocation()).isEqualTo(Location.IN_STORE);
-        assertThat(order.getItems()).containsExactly(new LineItem(Drink.CAPPUCCINO, Milk.SKIMMED, Size.SMALL, 1));
+        LineItem lineItem = new LineItem(Drink.CAPPUCCINO, Milk.SKIMMED, Size.SMALL, 1);
+        assertThat(order.getItems()).containsExactly(lineItem);
         assertThat(order.getStatus()).isEqualTo(Status.PAYMENT_EXPECTED);
     }
 
@@ -59,7 +61,7 @@ class AcceptanceTests {
 
         customer.cancelOrder(existingOrder.getId());
 
-        assertThatThrownBy(() -> orders.findOrderById(existingOrder.getId())).isInstanceOf(OrderNotFound.class);
+        assertThatThrownBy(() -> orders.findOrderById(existingOrder.getId())).isInstanceOf(OrderNotFoundException.class);
     }
 
     @Test

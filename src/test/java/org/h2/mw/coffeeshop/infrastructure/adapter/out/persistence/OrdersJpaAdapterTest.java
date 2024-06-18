@@ -2,7 +2,7 @@ package org.h2.mw.coffeeshop.infrastructure.adapter.out.persistence;
 
 import org.h2.mw.coffeeshop.core.application.order.LineItem;
 import org.h2.mw.coffeeshop.core.application.order.Order;
-import org.h2.mw.coffeeshop.core.application.out.OrderNotFound;
+import org.h2.mw.coffeeshop.core.exception.OrderNotFoundException;
 import org.h2.mw.coffeeshop.core.application.out.Orders;
 import org.h2.mw.coffeeshop.core.shared.*;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ class OrdersJpaAdapterTest {
 
     @Test
     void findingNonExistingOrderThrowsException() {
-        assertThatThrownBy(() -> orders.findOrderById(UUID.randomUUID())).isInstanceOf(OrderNotFound.class);
+        assertThatThrownBy(() -> orders.findOrderById(UUID.randomUUID())).isInstanceOf(OrderNotFoundException.class);
     }
 
     @Test
