@@ -4,28 +4,30 @@ import lombok.RequiredArgsConstructor;
 import org.h2.mw.coffeeshop.core.application.in.OrderingCoffee;
 import org.h2.mw.coffeeshop.infrastructure.adapter.in.rest.resource.OrderResponse;
 import org.h2.mw.coffeeshop.infrastructure.adapter.in.rest.resource.ReceiptResponse;
+import org.h2.mw.coffeeshop.infrastructure.shared.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ReceiptController {
     private final OrderingCoffee orderingCoffee;
 
     @GetMapping("/receipt/{id}")
-    ResponseEntity<ReceiptResponse> readReceipt(@PathVariable UUID id) {
+    ResponseEntity<ApiResponse<ReceiptResponse>> readReceipt(@PathVariable UUID id) {
         var receipt = orderingCoffee.readReceipt(id);
-        return ResponseEntity.ok(ReceiptResponse.fromDomain(receipt));
+        return ApiResponse.resolve(HttpStatus.OK, ReceiptResponse.fromDomain(receipt));
     }
 
     @DeleteMapping("/receipt/{id}")
-    ResponseEntity<OrderResponse> completeOrder(@PathVariable UUID id) {
+    ResponseEntity<ApiResponse<OrderResponse>> completeOrder(@PathVariable UUID id) {
         var order = orderingCoffee.takeOrder(id);
-        return ResponseEntity.ok(OrderResponse.fromDomain(order));
+        return ApiResponse.resolve(HttpStatus.OK, OrderResponse.fromDomain(order));
     }
 }

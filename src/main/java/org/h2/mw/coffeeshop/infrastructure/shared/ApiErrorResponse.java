@@ -1,5 +1,6 @@
 package org.h2.mw.coffeeshop.infrastructure.shared;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -19,7 +20,7 @@ import static org.springframework.http.ResponseEntity.status;
 @ToString
 @Getter
 public final class ApiErrorResponse {
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "Asia/Rangoon")
     private final Instant timestamp;
     private final int status;
     private final HttpStatus errorCode;
