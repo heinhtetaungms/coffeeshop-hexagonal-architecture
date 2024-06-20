@@ -94,6 +94,11 @@ class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("OrderNotFoundException throws", ex);
         return notFound(ex.getMessage());
     }
+    @ExceptionHandler(IllegalStateException.class)
+    ResponseEntity<ApiErrorResponse> handle(IllegalStateException ex) {
+        log.error("IllegalStateException throws", ex);
+        return badRequest(ex.getMessage());
+    }
 
     @ExceptionHandler(Throwable.class)
     ResponseEntity<ApiErrorResponse> handleThrowable(Throwable throwable) {
